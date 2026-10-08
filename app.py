@@ -67,7 +67,7 @@ tab=f.groupby(['regiao','uf','cidade','categoria','canal_venda'],as_index=False)
 st.dataframe(tab,use_container_width=True,hide_index=True)
 st.subheader('Interpretação e conclusão executiva')
 reg=f.groupby('regiao').faturamento.sum().idxmax(); cat=f.groupby('categoria').lucro.sum().idxmax(); can=f.groupby('canal_venda').faturamento.sum().idxmax(); pico=f.groupby(f.data.dt.to_period('M')).faturamento.sum().idxmax(); corr=f[['prazo_entrega','avaliacao_cliente']].corr().iloc[0,1]
-st.info(f"Neste recorte, {reg} lidera o faturamento por região; {cat} gera o maior lucro agregado; e {can} tem maior faturamento entre os canais. O mês de pico é {pico:%m/%Y}. A correlação linear entre prazo de entrega e avaliação é {corr:.2f}; correlação isolada não demonstra causalidade.")
+st.info(f"Neste recorte, {reg} lidera o faturamento por região; {cat} gera o maior lucro agregado; e {can} tem maior faturamento entre os canais. O mês de pico é {pico.strftime('%m/%Y')}. A correlação linear entre prazo de entrega e avaliação é {corr:.2f}; correlação isolada não demonstra causalidade.")
 st.write('Priorize decisões com base nos segmentos que lideram o recorte, acompanhe a evolução mês a mês e investigue operacionalmente a associação entre entrega e satisfação antes de atribuir causa. Os resultados mudam com os filtros.')
 st.download_button('Baixar recorte filtrado em CSV',f.to_csv(index=False).encode('utf-8-sig'),'ecommerce_filtrado.csv','text/csv')
 with st.expander('Sobre a base e seus limites'):
