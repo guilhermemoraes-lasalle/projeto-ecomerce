@@ -1,1 +1,0 @@
-Banco SQLite regenerável a partir de `dados/simulacao_ecommerce_brasil.csv` com `python scripts/criar_banco.py`. A tabela `vendas` preserva as colunas do CSV; tabelas `dim_*` contêm valores únicos para análises dimensionais.
