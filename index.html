@@ -1,1 +1,321 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vendas em E-commerce no Brasil | Projeto G1</title><meta name="description" content="Projeto de análise de vendas em e-commerce com Python"><style>*{box-sizing:border-box}body{margin:0;background:#f3f6fb;color:#152238;font:16px/1.6 Arial,sans-serif}header{background:linear-gradient(125deg,#0d2038,#075985);color:white;padding:48px max(calc((100% - 1100px)/2),24px)}h1{font-size:clamp(2rem,4vw,3.2rem);line-height:1.1;margin:0 0 14px}main{max-width:1100px;margin:34px auto;padding:0 22px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}.card,figure{background:white;padding:18px;border-radius:15px;box-shadow:0 5px 20px #15223812}.metric{font-size:1.3rem;font-weight:700;color:#075985}.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.links a{color:white;background:#087eaa;padding:9px 14px;border-radius:9px;text-decoration:none}figure img{width:100%;height:auto}.note{background:#e6f1fa;padding:15px;border-left:4px solid #0784ba}footer{text-align:center;background:#e8eef5;padding:24px;margin-top:40px}</style></head><body><header><h1>Vendas em E-commerce no Brasil</h1><p>Projeto G1 · Disciplina: Linguagens de Programação<br>Professor: Alexandre Neves Louzada · Aluno: Guilherme Oliveira de Moraes</p><nav class="links"><a href="https://github.com/guilhermemoraes-lasalle/projeto-ecomerce">GitHub</a><a href="https://guilhermemoraes-lasalle.github.io/projeto-ecomerce/">GitHub Pages</a><a href="https://projeto-ecomerce-atrtcjstuvrclmvl2gvbng.streamlit.app/">Dashboard Streamlit</a><a href="dados/simulacao_ecommerce_brasil.csv">CSV da base</a></nav></header><main><h2>Objetivo</h2><p>Investigar faturamento, produtos, regiões, sazonalidade, canais e desempenho logístico com análise exploratória e dashboard interativo.</p><p class="note">A base contém 4.440 registros entre 2015-01 e 2024-12. Não há identificador de pedido; a média apresentada é por registro. O lucro foi preservado conforme informado na fonte e pode divergir de faturamento menos custo.</p><h2>Indicadores da base</h2><div class="grid"><article class="card">Faturamento total<div class="metric">R$ 85.128.670,31</div></article><article class="card">Lucro total informado<div class="metric">R$ 26.886.927,79</div></article><article class="card">Faturamento médio por registro<div class="metric">R$ 19.173,12</div></article><article class="card">Prazo médio e avaliação<div class="metric">8,51 dias · 3,77/5</div></article></div><h2>Comparações observadas</h2><p>Região e UF líderes: <b>Sudeste / RJ</b>. Canal líder: <b>Marketplace</b>. Produto com mais unidades: <b>Produto D</b>. Categoria com maior soma do lucro informado: <b>Beleza</b>. Pico agregado: <b>11/2022</b>.</p><div class="grid"><figure><img src="imagens/evolucao_faturamento.png" alt="Evolução mensal do faturamento"></figure><figure><img src="imagens/faturamento_categoria.png" alt="Faturamento por categoria"></figure><figure><img src="imagens/faturamento_regiao.png" alt="Faturamento por região"></figure></div><h2>Como explorar</h2><p>Use o dashboard para filtrar os segmentos, comparar períodos, examinar logística e avaliação e baixar o recorte. O notebook explica a limpeza, os indicadores, os gráficos e os limites da análise.</p><p>Disciplina: Linguagens de Programação · Professor: Alexandre Neves Louzada · Aluno: Guilherme Oliveira de Moraes</p></main><footer>Linguagens de Programação · Alexandre Neves Louzada · Guilherme Oliveira de Moraes</footer></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta
+    name="description"
+    content="Projeto G1 de análise e visualização de vendas em e-commerce no Brasil."
+  >
+  <title>Vendas em E-commerce no Brasil | Projeto G1</title>
+
+  <style>
+    :root {
+      color-scheme: light;
+      --azul-escuro: #10213f;
+      --azul: #2454d6;
+      --azul-claro: #eaf0ff;
+      --fundo: #f3f5f9;
+      --texto: #202938;
+      --cinza: #566174;
+      --branco: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--fundo);
+      color: var(--texto);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.55;
+    }
+
+    header {
+      padding: 54px 22px;
+      background: linear-gradient(115deg, var(--azul-escuro), #2454d6);
+      color: var(--branco);
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.15;
+    }
+
+    header p {
+      margin: 7px 0;
+    }
+
+    .subtitulo {
+      font-size: 1.05rem;
+    }
+
+    main {
+      width: min(1100px, calc(100% - 32px));
+      margin: 32px auto;
+    }
+
+    section {
+      margin: 22px 0;
+      padding: 26px;
+      border-radius: 16px;
+      background: var(--branco);
+      box-shadow: 0 5px 20px rgb(20 35 60 / 8%);
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      color: var(--azul);
+      font-size: 1.45rem;
+    }
+
+    p {
+      margin: 10px 0;
+    }
+
+    .grade {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .cartao {
+      padding: 17px;
+      border-left: 5px solid var(--azul);
+      border-radius: 10px;
+      background: #f6f8fc;
+    }
+
+    .cartao strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .lista-tecnologias {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+
+    .tecnologia {
+      padding: 12px 14px;
+      border-left: 4px solid var(--azul);
+      border-radius: 8px;
+      background: #f6f8fc;
+    }
+
+    .botoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 11px;
+      margin-top: 18px;
+    }
+
+    .botao {
+      display: inline-block;
+      padding: 11px 16px;
+      border-radius: 9px;
+      background: var(--azul);
+      color: var(--branco);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .botao.secundario {
+      background: #34445f;
+    }
+
+    .botao:hover {
+      filter: brightness(1.08);
+    }
+
+    .nota {
+      padding: 14px 16px;
+      border-left: 4px solid #e1a400;
+      border-radius: 8px;
+      background: #fff8df;
+    }
+
+    footer {
+      margin-top: 36px;
+      padding: 22px;
+      background: var(--azul-escuro);
+      color: var(--branco);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 38px 18px;
+      }
+
+      section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Vendas em E-commerce no Brasil</h1>
+    <p class="subtitulo">
+      Projeto G1 de análise e visualização de dados com Python
+    </p>
+    <p>
+      <strong>Disciplina:</strong> Linguagens de Programação<br>
+      <strong>Professor:</strong> Alexandre Neves Louzada<br>
+      <strong>Aluno:</strong> Guilherme Oliveira de Moraes
+    </p>
+
+    <nav class="botoes" aria-label="Links do projeto" style="justify-content:center">
+      <a
+        class="botao"
+        href="https://github.com/guilhermemoraes-lasalle/projeto-ecomerce"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Repositório GitHub</a>
+
+      <a
+        class="botao secundario"
+        href="https://guilhermemoraes-lasalle.github.io/projeto-ecomerce/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Página GitHub Pages</a>
+
+      <a
+        class="botao"
+        href="https://projeto-ecomerce-atrtcjstuvrclmvl2gvbng.streamlit.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Abrir dashboard</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Sobre o projeto</h2>
+      <p>
+        Este projeto analisa vendas de e-commerce no Brasil para comparar
+        faturamento, lucro informado, produtos, categorias, canais, regiões,
+        sazonalidade e indicadores de entrega e avaliação.
+      </p>
+      <p>
+        A proposta reúne preparação dos dados, análise exploratória,
+        indicadores, visualizações, dashboard interativo e publicação web.
+      </p>
+    </section>
+
+    <section>
+      <h2>Perguntas de negócio</h2>
+      <ul>
+        <li>Quais categorias e canais concentram maior faturamento?</li>
+        <li>Quais produtos apresentam maior volume de unidades?</li>
+        <li>Quais regiões e estados têm maior faturamento?</li>
+        <li>Como o faturamento varia ao longo do tempo?</li>
+        <li>Como prazo de entrega e avaliação se comportam na base?</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Indicadores analisados</h2>
+      <div class="grade">
+        <article class="cartao">
+          <strong>Faturamento total</strong>
+          Soma dos valores da coluna de faturamento.
+        </article>
+
+        <article class="cartao">
+          <strong>Lucro total informado</strong>
+          Soma da coluna de lucro fornecida na base.
+        </article>
+
+        <article class="cartao">
+          <strong>Margem do lucro informado</strong>
+          Relação entre lucro informado e faturamento.
+        </article>
+
+        <article class="cartao">
+          <strong>Faturamento médio por registro</strong>
+          Média por linha da base. O CSV não contém identificador de pedido.
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>Tecnologias utilizadas</h2>
+      <div class="lista-tecnologias">
+        <div class="tecnologia">Python</div>
+        <div class="tecnologia">Pandas</div>
+        <div class="tecnologia">Matplotlib</div>
+        <div class="tecnologia">Seaborn</div>
+        <div class="tecnologia">Streamlit</div>
+        <div class="tecnologia">Plotly</div>
+        <div class="tecnologia">SQLAlchemy</div>
+        <div class="tecnologia">SQLite</div>
+        <div class="tecnologia">GitHub Pages</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Arquivos do projeto</h2>
+      <p>Acesse a documentação, a análise em notebook e a base utilizada:</p>
+
+      <nav class="botoes" aria-label="Arquivos do projeto">
+        <a
+          class="botao"
+          href="https://github.com/guilhermemoraes-lasalle/projeto-ecomerce/blob/main/README.md"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Ver README</a>
+
+        <a
+          class="botao secundario"
+          href="https://github.com/guilhermemoraes-lasalle/projeto-ecomerce/blob/main/notebooks/analise_ecommerce.ipynb"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Ver notebook</a>
+
+        <a
+          class="botao secundario"
+          href="https://raw.githubusercontent.com/guilhermemoraes-lasalle/projeto-ecomerce/main/dados/simulacao_ecommerce_brasil.csv"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Baixar base de dados</a>
+      </nav>
+    </section>
+
+    <section>
+      <h2>Dashboard interativo</h2>
+      <p>
+        Explore os dados com filtros, indicadores dinâmicos, gráficos,
+        comparações regionais e tabela analítica.
+      </p>
+      <a
+        class="botao"
+        href="https://projeto-ecomerce-atrtcjstuvrclmvl2gvbng.streamlit.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Acessar dashboard Streamlit</a>
+    </section>
+
+    <section>
+      <h2>Observação sobre os dados</h2>
+      <p class="nota">
+        A base não possui identificador único de pedido. Por isso, a média
+        apresentada é por registro, e não um ticket médio por pedido.
+        A coluna de lucro é apresentada conforme fornecida no CSV.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    Linguagens de Programação · Alexandre Neves Louzada ·
+    Guilherme Oliveira de Moraes
+  </footer>
+</body>
+</html>
