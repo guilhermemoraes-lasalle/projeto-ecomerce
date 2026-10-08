@@ -1,25 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta
     name="description"
-    content="Projeto G1 de análise de vendas em e-commerce no Brasil."
+    content="Projeto acadêmico de análise e visualização de dados de e-commerce brasileiro."
   >
-  <title>Vendas em E-commerce no Brasil | Projeto G1</title>
+  <title>Análise de E-commerce Brasileiro | Projeto G1</title>
 
   <style>
     :root {
-      --navy: #14213d;
-      --blue: #2454d6;
-      --blue-dark: #183da8;
-      --ink: #202938;
-      --muted: #647084;
-      --page: #f3f5f9;
-      --card: #ffffff;
-      --line: #e5eaf1;
-      --pale-blue: #edf2ff;
+      --azul-escuro: #101a32;
+      --azul: #2454d6;
+      --azul-claro: #eaf0ff;
+      --fundo: #f3f5f9;
+      --texto: #202938;
+      --texto-suave: #5c6678;
+      --branco: #ffffff;
+      --borda: #e5e9f0;
     }
 
     * {
@@ -28,544 +27,328 @@
 
     body {
       margin: 0;
-      background: var(--page);
-      color: var(--ink);
+      background: var(--fundo);
+      color: var(--texto);
       font-family: Arial, Helvetica, sans-serif;
       line-height: 1.6;
     }
 
-    a {
-      color: inherit;
+    header {
+      padding: 58px 20px 54px;
+      color: var(--branco);
+      text-align: center;
+      background: linear-gradient(120deg, var(--azul-escuro), #244fc7);
     }
 
-    .hero {
-      padding: 56px 24px 48px;
-      background:
-        radial-gradient(circle at 82% 15%, rgb(65 113 240 / 45%), transparent 30%),
-        linear-gradient(120deg, #111d38, #1d43a4 68%, #2454d6);
-      color: #fff;
+    header h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.15;
     }
 
-    .hero-inner,
-    main,
-    .footer-inner {
-      width: min(1120px, calc(100% - 36px));
-      margin: 0 auto;
-    }
-
-    .eyebrow {
-      margin: 0 0 12px;
-      color: #cbd8ff;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      max-width: 850px;
+    header p {
       margin: 0;
-      font-size: clamp(2.15rem, 5vw, 3.5rem);
-      letter-spacing: -0.035em;
-      line-height: 1.08;
+      font-size: 1.05rem;
+      color: #e5ebff;
     }
 
-    .hero-description {
-      max-width: 760px;
-      margin: 18px 0 0;
-      color: #e4eaff;
-      font-size: 1.08rem;
-    }
-
-    .identification {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 24px;
-      margin-top: 24px;
-      color: #f3f6ff;
+    .identificacao {
+      margin-top: 22px;
+      color: #e5ebff;
       font-size: 0.95rem;
     }
 
-    .identification strong {
-      color: #fff;
+    main {
+      width: min(1040px, calc(100% - 32px));
+      margin: 34px auto 54px;
     }
 
-    .hero-links,
-    .file-links {
+    section {
+      margin-bottom: 22px;
+      padding: 28px;
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(22, 34, 57, 0.06);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      color: var(--azul);
+      font-size: 1.45rem;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    .suave {
+      color: var(--texto-suave);
+    }
+
+    .perguntas {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    .indicadores,
+    .tecnologias {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+    }
+
+    .indicador,
+    .tecnologia {
+      padding: 17px;
+      background: #f7f9fc;
+      border: 1px solid var(--borda);
+      border-left: 4px solid var(--azul);
+      border-radius: 10px;
+    }
+
+    .indicador strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .botoes {
       display: flex;
       flex-wrap: wrap;
-      gap: 11px;
-      margin-top: 26px;
+      gap: 12px;
+      margin-top: 18px;
     }
 
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 44px;
-      padding: 10px 16px;
-      border: 1px solid transparent;
+    .botao {
+      display: inline-block;
+      padding: 11px 17px;
+      color: var(--branco);
+      background: var(--azul);
+      border: 1px solid var(--azul);
       border-radius: 9px;
-      background: var(--blue);
-      color: #fff;
-      font-size: 0.94rem;
       font-weight: 700;
       text-decoration: none;
-      transition: background 150ms ease, transform 150ms ease;
+      transition: transform 0.15s ease, background 0.15s ease;
     }
 
-    .button:hover {
+    .botao:hover {
+      background: #193fae;
       transform: translateY(-1px);
-      background: var(--blue-dark);
     }
 
-    .button-light {
-      border-color: rgb(255 255 255 / 45%);
-      background: rgb(255 255 255 / 10%);
+    .botao-secundario {
+      color: var(--texto);
+      background: var(--branco);
+      border-color: var(--borda);
     }
 
-    .button-light:hover {
-      background: rgb(255 255 255 / 20%);
+    .botao-secundario:hover {
+      color: var(--azul);
+      background: var(--azul-claro);
+      border-color: #c8d5ff;
     }
 
-    main {
-      padding: 28px 0 48px;
-    }
-
-    .section {
-      margin: 20px 0;
-      padding: 28px;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      background: var(--card);
-      box-shadow: 0 7px 24px rgb(25 39 68 / 5%);
-    }
-
-    .section h2 {
-      margin: 0 0 14px;
-      color: var(--blue-dark);
-      font-size: 1.42rem;
-      letter-spacing: -0.02em;
-    }
-
-    .section-intro {
-      max-width: 820px;
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 20px;
-    }
-
-    .metric {
-      min-height: 126px;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-top: 3px solid var(--blue);
-      border-radius: 11px;
-      background: #fbfcff;
-    }
-
-    .metric-label {
-      color: var(--muted);
-      font-size: 0.86rem;
-      font-weight: 700;
-    }
-
-    .metric-value {
-      margin-top: 7px;
-      color: var(--navy);
-      font-size: clamp(1.18rem, 2vw, 1.55rem);
-      font-weight: 750;
-      letter-spacing: -0.025em;
-      line-height: 1.2;
-    }
-
-    .metric-note {
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: 0.8rem;
-    }
-
-    .columns {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 20px;
-    }
-
-    .bar-list {
-      display: grid;
-      gap: 13px;
-      margin-top: 20px;
-    }
-
-    .bar-row {
-      display: grid;
-      grid-template-columns: minmax(92px, 145px) 1fr minmax(112px, 150px);
-      align-items: center;
-      gap: 12px;
-      font-size: 0.9rem;
-    }
-
-    .bar-label {
-      color: var(--ink);
-      font-weight: 700;
-    }
-
-    .bar-track {
-      height: 12px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: #e9eef8;
-    }
-
-    .bar-fill {
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #3973ef, #2454d6);
-    }
-
-    .bar-value {
-      color: var(--muted);
-      font-size: 0.82rem;
-      text-align: right;
-      white-space: nowrap;
-    }
-
-    .questions {
-      display: grid;
-      gap: 11px;
-      margin: 18px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .questions li {
-      position: relative;
-      padding-left: 25px;
-    }
-
-    .questions li::before {
-      position: absolute;
-      left: 0;
-      color: var(--blue);
-      content: "↗";
-      font-weight: 700;
-    }
-
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 11px;
-      margin-top: 18px;
-    }
-
-    .tech {
-      padding: 12px 14px;
-      border-left: 4px solid var(--blue);
-      border-radius: 8px;
-      background: #f6f8fc;
-      font-weight: 700;
-    }
-
-    .note {
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-left: 4px solid #d69e18;
-      border-radius: 8px;
-      background: #fff8e7;
-      color: #4d4229;
-      font-size: 0.92rem;
-    }
-
-    .dashboard-card {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      background: linear-gradient(120deg, #f1f5ff, #fff);
-    }
-
-    .dashboard-card h2 {
-      margin-bottom: 6px;
-    }
-
-    .dashboard-card p {
-      max-width: 680px;
-      margin: 0;
-      color: var(--muted);
+    .destaque {
+      padding: 18px 20px;
+      background: var(--azul-claro);
+      border-radius: 10px;
     }
 
     footer {
-      padding: 22px;
-      background: var(--navy);
-      color: #e7edff;
+      padding: 24px 16px;
+      color: #e5ebff;
+      background: var(--azul-escuro);
       text-align: center;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
     }
 
-    @media (max-width: 820px) {
-      .metrics {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .columns {
-        grid-template-columns: 1fr;
-      }
-
-      .tech-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+    footer p {
+      margin: 4px 0;
     }
 
-    @media (max-width: 520px) {
-      .hero {
-        padding: 42px 0 36px;
+    @media (max-width: 600px) {
+      header {
+        padding: 44px 18px;
       }
 
-      .section {
-        padding: 21px;
+      section {
+        padding: 22px;
       }
 
-      .metrics {
-        grid-template-columns: 1fr;
+      .botoes {
+        flex-direction: column;
       }
 
-      .bar-row {
-        grid-template-columns: 92px 1fr;
-      }
-
-      .bar-value {
-        grid-column: 2;
-        margin-top: -8px;
-        text-align: left;
-      }
-
-      .tech-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .button {
-        width: 100%;
+      .botao {
+        text-align: center;
       }
     }
   </style>
 </head>
 
 <body>
-  <header class="hero">
-    <div class="hero-inner">
-      <p class="eyebrow">Projeto G1 · E-commerce Brasil</p>
-      <h1>Análise de vendas em e-commerce no Brasil</h1>
-      <p class="hero-description">
-        Uma análise de faturamento, produtos, canais, regiões, sazonalidade
-        e indicadores de entrega e avaliação.
-      </p>
+  <header>
+    <h1>Análise de E-commerce Brasileiro</h1>
+    <p>Projeto de análise e visualização de dados com Python</p>
 
-      <div class="identification">
-        <span><strong>Disciplina:</strong> Linguagens de Programação</span>
-        <span><strong>Professor:</strong> Alexandre Neves Louzada</span>
-        <span><strong>Aluno:</strong> Guilherme Oliveira de Moraes</span>
-      </div>
-
-      <nav class="hero-links" aria-label="Publicações do projeto">
-        <a
-          class="button"
-          href="https://github.com/guilhermemoraes-lasalle/projeto-ecomerce"
-          target="_blank"
-          rel="noopener noreferrer"
-        >Repositório GitHub</a>
-
-        <a
-          class="button button-light"
-          href="https://guilhermemoraes-lasalle.github.io/projeto-ecomerce/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >GitHub Pages</a>
-
-        <a
-          class="button button-light"
-          href="https://projeto-ecomerce-atrtcjstuvrclmvl2gvbng.streamlit.app/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >Dashboard Streamlit</a>
-      </nav>
+    <div class="identificacao">
+      <div><strong>Guilherme Oliveira de Moraes</strong></div>
+      <div>Linguagens de Programação</div>
+      <div>Professor: Alexandre Neves Louzada</div>
     </div>
   </header>
 
   <main>
-    <section class="section">
+    <section>
       <h2>Sobre o projeto</h2>
-      <p class="section-intro">
-        O projeto transforma a base fornecida para o tema em indicadores e
-        comparações que ajudam a entender o desempenho comercial do e-commerce
-        brasileiro. A análise cobre o período de 2015 a 2024 e combina notebook,
-        banco SQLite, visualizações e dashboard interativo.
+      <p>
+        Este projeto analisa dados de vendas de e-commerce no Brasil para
+        acompanhar faturamento, custos, lucro informado, categorias, canais
+        de venda e distribuição geográfica.
+      </p>
+      <p class="suave">
+        A análise reúne preparação dos dados, exploração, indicadores e
+        visualizações interativas para facilitar a consulta dos resultados.
       </p>
     </section>
 
-    <section class="section">
-      <h2>Indicadores da base completa</h2>
-      <p class="section-intro">
-        Valores calculados sobre os 4.440 registros do arquivo utilizado.
-      </p>
-
-      <div class="metrics">
-        <article class="metric">
-          <div class="metric-label">Faturamento total</div>
-          <div class="metric-value">R$ 85.128.670,31</div>
-          <div class="metric-note">Soma do faturamento informado</div>
-        </article>
-
-        <article class="metric">
-          <div class="metric-label">Lucro total informado</div>
-          <div class="metric-value">R$ 26.886.927,79</div>
-          <div class="metric-note">Soma da coluna de lucro da base</div>
-        </article>
-
-        <article class="metric">
-          <div class="metric-label">Faturamento médio por registro</div>
-          <div class="metric-value">R$ 19.173,12</div>
-          <div class="metric-note">Média das linhas do arquivo</div>
-        </article>
-
-        <article class="metric">
-          <div class="metric-label">Prazo e avaliação médios</div>
-          <div class="metric-value">8,51 dias · 3,77/5</div>
-          <div class="metric-note">Médias das colunas da base</div>
-        </article>
-      </div>
-
-      <p class="note">
-        O arquivo não possui identificador de pedido; por isso, o indicador
-        financeiro médio é por registro, não ticket médio por pedido. O lucro
-        é apresentado conforme informado na base.
-      </p>
+    <section>
+      <h2>Perguntas analisadas</h2>
+      <ul class="perguntas">
+        <li>Como o faturamento se distribui ao longo do tempo?</li>
+        <li>Quais regiões, estados e cidades concentram mais faturamento?</li>
+        <li>Quais categorias e canais apresentam maior faturamento?</li>
+        <li>Como quantidade, custos e lucro informado variam entre os grupos?</li>
+        <li>Como prazo de entrega e avaliação dos clientes se comportam?</li>
+      </ul>
     </section>
 
-    <div class="columns">
-      <section class="section">
-        <h2>Faturamento por categoria</h2>
-        <p class="section-intro">
-          Comparação da soma de faturamento em cada categoria.
-        </p>
-
-        <div class="bar-list" role="img" aria-label="Gráfico de faturamento por categoria">
-          <div class="bar-row">
-            <span class="bar-label">Beleza</span>
-            <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
-            <span class="bar-value">R$ 15.278.102</span>
-          </div>
-          <div class="bar-row">
-            <span class="bar-label">Eletrônicos</span>
-            <div class="bar-track"><div class="bar-fill" style="width:96.3%"></div></div>
-            <span class="bar-value">R$ 14.717.774</span>
-          </div>
-          <div class="bar-row">
-            <span class="bar-label">Moda</span>
-            <div class="bar-track"><div class="bar-fill" style="width:95.4%"></div></div>
-            <span class="bar-value">R$ 14.570.371</span>
-          </div>
-          <div class="bar-row">
-            <span class="bar-label">Esporte</span>
-            <div class="bar-track"><div class="bar-fill" style="width:93.8%"></div></div>
-            <span class="bar-value">R$ 14.338.204</span>
-          </div>
-          <div class="bar-row">
-            <span class="bar-label">Casa</span>
-            <div class="bar-track"><div class="bar-fill" style="width:88%"></div></div>
-            <span class="bar-value">R$ 13.440.233</span>
-          </div>
-          <div class="bar-row">
-            <span class="bar-label">Livros</span>
-            <div class="bar-track"><div class="bar-fill" style="width:83.7%"></div></div>
-            <span class="bar-value">R$ 12.783.986</span>
-          </div>
+    <section>
+      <h2>Indicadores acompanhados</h2>
+      <div class="indicadores">
+        <div class="indicador">
+          <strong>Faturamento total</strong>
+          Soma do faturamento registrado na base.
         </div>
-      </section>
-
-      <section class="section">
-        <h2>Perguntas de negócio</h2>
-        <ul class="questions">
-          <li>Quais categorias e canais concentram maior faturamento?</li>
-          <li>Quais produtos apresentam maior volume de unidades?</li>
-          <li>Quais regiões e estados lideram em faturamento?</li>
-          <li>Como as vendas variam ao longo do tempo?</li>
-          <li>Como prazo de entrega e avaliação se comportam na base?</li>
-        </ul>
-      </section>
-    </div>
-
-    <section class="section">
-      <h2>Tecnologias utilizadas</h2>
-      <div class="tech-grid">
-        <div class="tech">Python</div>
-        <div class="tech">Pandas</div>
-        <div class="tech">Matplotlib</div>
-        <div class="tech">Seaborn</div>
-        <div class="tech">Streamlit</div>
-        <div class="tech">Plotly</div>
-        <div class="tech">SQLAlchemy</div>
-        <div class="tech">SQLite</div>
+        <div class="indicador">
+          <strong>Lucro informado</strong>
+          Soma dos valores de lucro fornecidos na base.
+        </div>
+        <div class="indicador">
+          <strong>Quantidade vendida</strong>
+          Total de itens registrados nas vendas.
+        </div>
+        <div class="indicador">
+          <strong>Entrega e avaliação</strong>
+          Médias do prazo de entrega e das avaliações dos clientes.
+        </div>
       </div>
     </section>
 
-    <section class="section">
-      <h2>Arquivos do projeto</h2>
-      <p class="section-intro">
-        Documentação, análise detalhada e base de dados.
+    <section>
+      <h2>Tecnologias utilizadas</h2>
+      <div class="tecnologias">
+        <div class="tecnologia">Python</div>
+        <div class="tecnologia">Pandas</div>
+        <div class="tecnologia">Matplotlib e Seaborn</div>
+        <div class="tecnologia">Plotly</div>
+        <div class="tecnologia">Streamlit</div>
+        <div class="tecnologia">SQLite e SQLAlchemy</div>
+        <div class="tecnologia">GitHub Pages</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Arquivos e análise</h2>
+      <p class="suave">
+        Consulte a documentação, explore o notebook ou abra-o diretamente
+        no Google Colab.
       </p>
 
-      <nav class="file-links" aria-label="Arquivos do projeto">
+      <div class="botoes">
         <a
-          class="button"
+          class="botao"
           href="https://github.com/guilhermemoraes-lasalle/projeto-ecomerce/blob/main/README.md"
           target="_blank"
           rel="noopener noreferrer"
-        >Ler o README</a>
+        >
+          Ver README
+        </a>
 
         <a
-          class="button secondary"
+          class="botao botao-secundario"
           href="https://github.com/guilhermemoraes-lasalle/projeto-ecomerce/blob/main/notebooks/analise_ecommerce.ipynb"
           target="_blank"
           rel="noopener noreferrer"
-        >Abrir o notebook</a>
+        >
+          Ver notebook no GitHub
+        </a>
 
         <a
-          class="button secondary"
-          href="https://raw.githubusercontent.com/guilhermemoraes-lasalle/projeto-ecomerce/main/dados/simulacao_ecommerce_brasil.csv"
+          class="botao botao-secundario"
+          href="https://colab.research.google.com/drive/1vDch-xChT09PFc6tNliDsdlrQZ8z1zdm#scrollTo=mdOE_M2WqOTp"
           target="_blank"
           rel="noopener noreferrer"
-        >Baixar o CSV</a>
-      </nav>
+        >
+          Abrir notebook no Google Colab
+        </a>
+
+        <a
+          class="botao botao-secundario"
+          href="https://github.com/guilhermemoraes-lasalle/projeto-ecomerce/blob/main/dados/simulacao_ecommerce_brasil.csv"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Ver base de dados
+        </a>
+      </div>
     </section>
 
-    <section class="section dashboard-card">
-      <div>
-        <h2>Dashboard interativo</h2>
+    <section>
+      <h2>Dashboard interativo</h2>
+      <p>
+        O dashboard permite explorar os dados com filtros, indicadores,
+        tabelas e gráficos interativos.
+      </p>
+
+      <div class="botoes">
+        <a
+          class="botao"
+          href="https://projeto-ecomerce-atrtcjstuvrclmvl2gvbng.streamlit.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Acessar dashboard
+        </a>
+
+        <a
+          class="botao botao-secundario"
+          href="https://github.com/guilhermemoraes-lasalle/projeto-ecomerce"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Repositório no GitHub
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Conclusão</h2>
+      <div class="destaque">
         <p>
-          Explore os resultados com filtros, indicadores dinâmicos, gráficos
-          e tabelas analíticas.
+          O projeto organiza os dados de vendas em uma visão explorável,
+          permitindo comparar períodos, localidades, categorias e canais.
+          Os resultados apresentados no notebook e no dashboard são
+          calculados a partir da base utilizada na análise.
         </p>
       </div>
-
-      <a
-        class="button"
-        href="https://projeto-ecomerce-atrtcjstuvrclmvl2gvbng.streamlit.app/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >Acessar dashboard</a>
     </section>
   </main>
 
   <footer>
-    Linguagens de Programação · Alexandre Neves Louzada ·
-    Guilherme Oliveira de Moraes
+    <p><strong>Guilherme Oliveira de Moraes</strong></p>
+    <p>Linguagens de Programação · Professor Alexandre Neves Louzada</p>
+    <p>Projeto acadêmico de análise e visualização de dados com Python</p>
   </footer>
 </body>
 </html>
